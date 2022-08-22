@@ -2,7 +2,7 @@ import axios from 'axios'
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react'
 import { Link,  useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { baseURL } from '../Api/BaseUrl';
 const ProfileScreen = () => {
   const technician= useSelector(store=>store.technician);
@@ -14,7 +14,10 @@ const ProfileScreen = () => {
   const [compnyName,setCompnyName]=useState('');
   const [email,setEmail]=useState('');
   const [designations,setDesignations]=useState('');
-  const [homeAddress,setAddress]=useState('');
+  const [streetAddress,setStreetAddress]=useState('');
+  const [city,setCity]=useState('');
+  const [state,setState]=useState('');
+  const [zip,setZip]=useState('');
   useEffect(()=>{
     const getProfile=async()=>{
      const {data}=await axios.get(`${baseURL}/api/v1/technician/getTechnician`,{
@@ -26,12 +29,16 @@ const ProfileScreen = () => {
     }
     getProfile();
   },[])
+  console.log(profile)
   useEffect(()=>{
     setName(profile.name)
-    setAddress(profile.homeAddress)
+    setStreetAddress(profile.streetAddress)
     setCompnyName(profile.companyName)
     setEmail(profile.email)
     setDesignations(profile.designations)
+    setCity(profile.city)
+    setState(profile.state)
+    setZip(profile.zip)
 
   },[profile])
 
@@ -125,20 +132,51 @@ const ProfileScreen = () => {
 
          <div className='flex w-full items-center justify-center space-x-5'>
          <TextField variant='outlined'
-         onChange={(e)=>{setAddress(e.target.value)}}
-         value={homeAddress}
+         onChange={(e)=>{setStreetAddress(e.target.value)}}
+         value={streetAddress}
           className='border-2  p-2 w-full'
           type='text'
-          label='Home Address'
-          name='address'
+          label='Street Address'
+          name='streetAddress'
           
           />
           
          </div>
         
          
-        
-
+         <div className='flex w-full items-center justify-center space-x-10'>
+         <TextField variant='outlined'
+         value={city}
+         onChange={(e)=>{setCity(e.target.value)}}
+         className='border-2 p-2 w-full'
+          type='text'
+          label='City'
+          name='city'
+          
+          />
+         </div>
+         <div className='flex w-full items-center justify-center space-x-10'>
+         <TextField variant='outlined'
+         value={state}
+         onChange={(e)=>{setState(e.target.value)}}
+         className='border-2 p-2 w-full'
+          type='text'
+          label='State'
+          name='state'
+          
+          />
+         </div>
+         <div className='flex w-full items-center justify-center space-x-10'>
+         <TextField variant='outlined'
+         value={zip}
+         onChange={(e)=>{setZip(e.target.value)}}
+         className='border-2 p-2 w-full'
+          type='text'
+          label='Zip'
+          name='zip'
+          
+          />
+         </div>
          <div className='bg-[#0d3841] w-full p-2 flex justify-center'>
 
          <button onClick={submiHandler} className='sm:w-[30%] sm:text-2xl text-black p-2 rounded-md bg-[#75D3E2]' type='submit'>Update</button>
