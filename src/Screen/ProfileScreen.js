@@ -14,6 +14,7 @@ const ProfileScreen = () => {
   const [compnyName,setCompnyName]=useState('');
   const [email,setEmail]=useState('');
   const [designations,setDesignations]=useState('');
+  const [homeAddress,setAddress]=useState('');
   useEffect(()=>{
     const getProfile=async()=>{
      const {data}=await axios.get(`${baseURL}/api/v1/technician/getTechnician`,{
@@ -27,6 +28,7 @@ const ProfileScreen = () => {
   },[])
   useEffect(()=>{
     setName(profile.name)
+    setAddress(profile.homeAddress)
     setCompnyName(profile.companyName)
     setEmail(profile.email)
     setDesignations(profile.designations)
@@ -121,7 +123,18 @@ const ProfileScreen = () => {
           />
          </div>
 
-         
+         <div className='flex w-full items-center justify-center space-x-5'>
+         <TextField variant='outlined'
+         onChange={(e)=>{setAddress(e.target.value)}}
+         value={homeAddress}
+          className='border-2  p-2 w-full'
+          type='text'
+          label='Home Address'
+          name='address'
+          
+          />
+          
+         </div>
         
          
         
